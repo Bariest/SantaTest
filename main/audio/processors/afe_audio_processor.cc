@@ -32,6 +32,8 @@ void AfeAudioProcessor::Initialize(AudioCodec* codec, int frame_duration_ms) {
     char* vad_model_name = esp_srmodel_filter(models, ESP_VADN_PREFIX, NULL);
     
     afe_config_t* afe_config = afe_config_init(input_format.c_str(), NULL, AFE_TYPE_VC, AFE_MODE_HIGH_PERF);
+  
+  
     afe_config->aec_mode = AEC_MODE_VOIP_HIGH_PERF;
     afe_config->vad_mode = VAD_MODE_0;
     afe_config->vad_min_noise_ms = 100;
@@ -134,7 +136,9 @@ void AfeAudioProcessor::AudioProcessorTask() {
             continue;
         }
 
+
         // VAD state change
+
         if (vad_state_change_callback_) {
             if (res->vad_state == VAD_SPEECH && !is_speaking_) {
                 is_speaking_ = true;
